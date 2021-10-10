@@ -12,7 +12,14 @@ function getHeaderDate() {
 }
 getHeaderDate();
 
-
+$(document).ready(function () {
+    hourArr = $(".hour").toArray();
+    for (i = 0; i < hourArr.length; i++) {
+      $(hourArr[i])
+        .siblings("textarea")
+        .text(localStorage.getItem($(hourArr[i]).attr("data-time")));
+    }
+  });
 
 for (i = 0; i < 9; i++) {
   var rowBlock = $("<div>").addClass("row time-block");
@@ -33,6 +40,22 @@ for (i = 0; i < 9; i++) {
   $(timeBlock).after(taskBlock);
   $(taskBlock).after(saveButton);
 
-  
+  if (now.isSame(moment("9:00 AM", "hh:mm A").add(i, "hours"), "hour")) {
+    $(taskBlock).addClass("present");
+  } else if (
+    now.isBefore(moment("9:00 AM", "hh:mm A").add(i, "hours"), "hour")
+  ) {
+    $(taskBlock).addClass("future");
+  } else if (
+    now.isAfter(moment("9:00 AM", "hh:mm A").add(i, "hours"), "hour")
+  ) {
+    $(taskBlock).addClass("past");
+  }
 }
 
+$(".saveBtn").on("click", function () {
+    localStorage.setItem(
+      $(this).siblings("div.hour").attr("data-time"),
+      $(this).siblings("textarea").val()
+    );
+  });
