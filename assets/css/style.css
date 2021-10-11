@@ -103,6 +103,8 @@ textarea:focus{
   }
   .row{
     margin-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0;
   }
   .hour{
     border-radius: .5rem .5rem 0 0;
